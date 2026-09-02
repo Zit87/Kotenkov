@@ -126,7 +126,7 @@ namespace ConsoleApp1
 
         static void Main(string[] args)
         {
-            //imt();
+            imt();
             den();
 
 
