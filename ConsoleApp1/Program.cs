@@ -8,15 +8,24 @@ namespace ConsoleApp1
 {
     internal class Program
     {
-        static void Main(string[] args)
+
+        static void imt()
         {
             Console.Write("введите вес:(в кг)");
             decimal ves = Convert.ToDecimal(Console.ReadLine());
             Console.Write("введите рост:(в см)");
             decimal rost = Convert.ToDecimal(Console.ReadLine());
-            decimal imt = ves / (rost/100 * rost/100);
+            decimal imt = ves / (rost / 100 * rost / 100);
             Console.Write("ваш ИМТ:(округленное)");
             Console.WriteLine(Convert.ToInt64(imt));
+
+
+
+        }
+
+        static void Main(string[] args)
+        {
+            imt();
 
 
 
