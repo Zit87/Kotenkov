@@ -25,110 +25,103 @@ namespace ConsoleApp1
 
         static void den()
         {
-            Console.Write("введите день:");
-            string den = Console.ReadLine();
-            Console.Write("введите месяц:");
+            Console.Write("Введите день: ");
+            int den = Convert.ToInt32(Console.ReadLine());
+
+            Console.Write("Введите месяц: ");
             int mes = Convert.ToInt32(Console.ReadLine());
-            Console.Write("введите год:");
+
+            Console.Write("Введите год: ");
             string god = Console.ReadLine();
-            int den1 = Convert.ToInt32(den);
-            bool god1 = Convert.ToInt32(god) % 4==0;
+
+           
+            int polniyGod = Convert.ToInt32("20" + god);
+
+            bool visokosniy = polniyGod % 4 == 0;
+
+            string nazvanieMesyaca = "";
+            int kolvoDney = 0;
 
             switch (mes)
             {
                 case 1:
-                    if (den1  <= 31)
-                    {
-                        Console.Write(den);
-                    }else
-                    {
-                        Console.Write("стоко дней нет");
-                        break;
-                    }
-                    Console.Write(" январь ");
-                    Console.Write("20"+god);
-
+                    nazvanieMesyaca = "январь";
+                    kolvoDney = 31;
                     break;
+
                 case 2:
-                   if (god1 = true)
+                    nazvanieMesyaca = "февраль";
+
+                    if (visokosniy)
                     {
-                        if(den1 <= 29)
-                        {
-                            Console.Write(den);
-                        }
+                        kolvoDney = 29;
                     }
                     else
                     {
-                        if (den1 <= 28)
-                        {
-                            Console.Write(den);
-                        }
+                        kolvoDney = 28;
                     }
-                    Console.Write(" февраль ");
-                    Console.Write("20" + god);
+
                     break;
+
                 case 3:
-                    Console.Write(den);
-                    Console.Write(" март ");
-                    Console.Write("20" + god);
-
+                    nazvanieMesyaca = "март";
+                    kolvoDney = 31;
                     break;
+
                 case 4:
-                    Console.Write(den);
-                    Console.Write(" апрель ");
-                    Console.Write("20" + god);
+                    nazvanieMesyaca = "апрель";
+                    kolvoDney = 30;
                     break;
+
                 case 5:
-                    Console.Write(den);
-                    Console.Write(" май ");
-                    Console.Write("20" + god);
-
+                    nazvanieMesyaca = "май";
+                    kolvoDney = 31;
                     break;
+
                 case 6:
-                    Console.Write(den);
-                    Console.Write(" июнь ");
-                    Console.Write("20" + god);
-
+                    nazvanieMesyaca = "июнь";
+                    kolvoDney = 30;
                     break;
+
                 case 7:
-                    Console.Write(den);
-                    Console.Write(" июль ");
-                    Console.Write("20" + god);
-
+                    nazvanieMesyaca = "июль";
+                    kolvoDney = 31;
                     break;
+
                 case 8:
-                    Console.Write(den);
-                    Console.Write(" август ");
-                    Console.Write("20" + god);
-
+                    nazvanieMesyaca = "август";
+                    kolvoDney = 31;
                     break;
+
                 case 9:
-                    Console.Write(den);
-                    Console.Write(" сентябрь ");
-                    Console.Write("20" + god);
-
+                    nazvanieMesyaca = "сентябрь";
+                    kolvoDney = 30;
                     break;
+
                 case 10:
-                    Console.Write(den);
-                    Console.Write(" октябрь ");
-                    Console.Write("20" + god);
-
+                    nazvanieMesyaca = "октябрь";
+                    kolvoDney = 31;
                     break;
+
                 case 11:
-                    Console.Write(den);
-                    Console.Write(" ноябрь ");
-                    Console.Write("20" + god);
-
+                    nazvanieMesyaca = "ноябрь";
+                    kolvoDney = 30;
                     break;
-                case 12:
-                    Console.Write(den);
-                    Console.Write(" декабрь ");
-                    Console.Write("20" + god);
 
+                case 12:
+                    nazvanieMesyaca = "декабрь";
+                    kolvoDney = 31;
                     break;
             }
 
-
+            if (den >= 1 && den <= kolvoDney)
+            {
+                Console.WriteLine(den + " " + nazvanieMesyaca + " 20" + god);
+            }
+            else
+            {
+                Console.WriteLine("В этом месяце столько дней нет!");
+            }
         }
 
         static void Main(string[] args)
