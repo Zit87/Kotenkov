@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace ConsoleApp1
 {
@@ -124,11 +125,39 @@ namespace ConsoleApp1
             }
         }
 
+        static void chisla()
+        {
+            Console.WriteLine("Введите выражение(сложение):");
+            string chisla1 = Console.ReadLine();
+            string[] chisla2 = chisla1.Split(new char[] { ' ' });
+            int a;
+            bool result = int.TryParse(chisla2[0], out a);
+
+            if (result == true)
+                Console.WriteLine($"Преобразование успешно. Число: {a}");
+            else
+                Console.WriteLine("Преобразование неудачно");
+            int b;
+            bool result1 = int.TryParse(chisla2[2], out b);
+
+            if (result == true)
+                Console.WriteLine($"Преобразование успешно. Число: {b}");
+            else
+                Console.WriteLine("Преобразование неудачно");
+           if (chisla2[1] == "+")
+            {
+                Console.Write("Результат сложения: ");
+                Console.WriteLine(a+b);
+            }
+
+
+        }
+
         static void Main(string[] args)
         {
-            imt();
-            den();
-
+            //imt();
+            //den();
+            chisla();
 
 
         }
