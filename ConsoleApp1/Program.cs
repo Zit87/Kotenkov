@@ -153,10 +153,11 @@ namespace ConsoleApp1
 
         }
 
+        
         static void Main(string[] args)
         {
-            //imt();
-            //den();
+            imt();
+            den();
             chisla();
 
 
