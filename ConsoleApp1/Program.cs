@@ -153,6 +153,12 @@ namespace ConsoleApp1
 
         }
 
+        static void invent()
+        {
+            string[] popa = { "клавиатура", "мышь", "наушники", "", "", "" };
+
+
+        }
         
         static void Main(string[] args)
         {
