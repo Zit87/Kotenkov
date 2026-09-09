@@ -160,12 +160,84 @@ namespace ConsoleApp1
 
         }
         
+        static void list()
+        {
+            List<string> zadachi = new List<string>();
+          
+            
+            while (true)
+            {
+                Console.WriteLine("Выберите действие:");
+                Console.WriteLine("1 - Добавление новой задачи");
+                Console.WriteLine("2 - Удаление по индексу");
+                Console.WriteLine("3 - Удаление по названию");
+                Console.WriteLine("4 - Вывод всех задач");
+                Console.WriteLine("5 - Сортировка по алфавиту");
+                Console.WriteLine("6 - Поиск задач");
+                int a = Convert.ToInt32(Console.ReadLine());
+                switch (a)
+                {
+                    case 1:
+                        Console.WriteLine("Введите задачу:");
+                        string zadacha = Console.ReadLine();
+                        zadachi.Add(zadacha);
+                        break;
+                    case 2:
+                        Console.WriteLine("Введите индекс");
+                        int deli = Convert.ToInt32(Console.ReadLine());
+                        zadachi.RemoveAt(deli);
+                        break;
+                    case 3:
+                        Console.WriteLine("Введите название");
+                        string deln = Console.ReadLine();
+                        zadachi.Remove(deln);
+                        break;
+                    case 4:
+                        foreach (var vivod in zadachi)
+                        {
+                            Console.WriteLine(vivod);
+                        }
+                        break;
+                    case 5:
+                        zadachi.Sort();
+                        break;
+                    case 6:
+                        Console.WriteLine("Введите название");
+                        string poisk = Console.ReadLine();
+                        var poisk1 = zadachi.Contains(poisk);
+                        if(poisk1 == true)
+                        {
+                            Console.WriteLine("есть такая задача");
+                        }
+                        else
+                        {
+                            Console.WriteLine("нет такой задачи");
+                        }
+                        break;
+
+
+                }
+
+                if (a < 1 )
+                {
+                    break;
+                }else if(a > 6){
+                    break;
+                }
+
+            }
+
+
+
+        }
+
+
         static void Main(string[] args)
         {
-            imt();
-            den();
-            chisla();
-
+            //imt();
+            //den();
+            //chisla();
+            list();
 
         }
     }
