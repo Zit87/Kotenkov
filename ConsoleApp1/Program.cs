@@ -1,39 +1,186 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace ConsoleApp1
 {
-    class Product
+    class Lampa
     {
-        
-        public int ProductID;
-        public string Name;
+        public static int ID = -1;
+        public string sost { get; private set; }
 
-        public double Price;
+        public int yar;
 
-        public int Quantity;
+        public int temp;
 
+        public string regim { get; private set; }
+
+        public Lampa(string sost, int yar, int temp)
+        {
+            ID++;
+            if (sost == "on" || sost == "off")
+            {
+                this.sost = sost;
+
+            }
+            else
+            {
+                Environment.Exit(1);
+            }
+
+            if (yar < 0 || yar > 100)
+            {
+                Console.WriteLine("от 0 до 100 только!!!");
+                Environment.Exit(1);
+
+            }
+            else
+            {
+                this.yar = yar;
+            }
+            if (temp < 2700 || temp > 6500)
+            {
+                Console.WriteLine("от 2700 до 6500 только!!!");
+                Environment.Exit(1);
+
+            }
+            else
+            {
+                this.temp = temp;
+            }
+
+            if (temp <= 3000)
+            {
+                regim = "Ночь";
+                
+            }
+            else if (temp > 3000 || temp <= 5000)
+            {
+                regim = "Чтение";
+            }
+            else if (temp > 5000)
+            {
+                regim = "День";
+            }
+
+
+
+
+        }
         public void PrintInfo()
         {
-            Console.WriteLine($"ID товара {ProductID} название {Name} цена {Price} кол-во {Quantity}");
+            Console.WriteLine($"ID лампы: {ID} состояние: {sost} яркость: {yar} температура: {temp} режим: {regim}");
         }
 
-        public Product(int productID, string name, double price, int quantity)
+
+        public void onoff()
         {
-            ProductID = productID;
-            Name = name;
-            Price = price;
-            Quantity = quantity;
+            if(sost == "on")
+            {
+                sost = "off";
+            }
+            else
+            {
+                sost = "on";
+            }
         }
+        public void yarkost()
+        {
+            Console.WriteLine("Введите желаемую яркость:");
+            int b = Convert.ToInt32(Console.ReadLine());
+            if (b < 0 || b > 100)
+            {
+                Console.WriteLine("от 0 до 100 только!!!");
+                return;
+
+            }
+            else
+            {
+                yar = b;
+            }
+        }
+
+        public void tempa()
+        {
+            Console.WriteLine("Введите желаемую температуру:");
+            int с = Convert.ToInt32(Console.ReadLine());
+            if (с < 2700 || с > 6500)
+            {
+                Console.WriteLine("от 2700 до 6500 только!!!");
+                return;
+
+            }
+            else
+            {
+               temp = с;
+            }
+
+            if (temp <= 3000)
+            {
+                regim = "Ночь";
+
+            }
+            else if (temp > 3000 && temp <= 5000)
+            {
+                regim = "Чтение";
+            }
+            else if (temp > 5000)
+            {
+                regim = "День";
+            }
+
+
+        }
+
+        public void regimi()
+        {
+            Console.WriteLine("Введите желаемый режим:");
+            string b = Console.ReadLine();
+            string d = b.ToLower();
+            if (d == "ночь")
+            {
+                temp = 2000;
+
+            } else if(d == "чтение")
+            {
+                temp = 4000;
+            }
+            else if (d == "день")
+            {
+                temp = 6000;
+            }
+            else
+            {
+                Console.WriteLine("Такого режима нет!!!");
+                return;
+            }
+            if (temp <= 3000)
+            {
+                regim = "Ночь";
+
+            }
+            else if (temp > 3000 && temp <= 5000)
+            {
+                regim = "Чтение";
+            }
+            else if (temp > 5000)
+            {
+                regim = "День";
+            }
+
+
+
+
+        }
+
 
 
     }
-
-
 
 
     internal class Program
@@ -43,72 +190,43 @@ namespace ConsoleApp1
 
         static void Main(string[] args)
         {
-            List<Product> products = new List<Product>();
-            products.Add(new Product(0, "макароны", 152, 2));
-            products.Add(new Product(1, "пельмени", 67, 3));
-            products.Add(new Product(2, "сигареты", 298, 8));
+            Lampa lampa = new Lampa("off", 20, 2800);
+            
             while (true)
             {
-
-
-                Console.WriteLine("____________Список продуктиков_____________");
-                Console.WriteLine("1. Показать список товаров");
-                Console.WriteLine("2. Добавить товар");
-                Console.WriteLine("3. Удалить товар");
+                
+                lampa.PrintInfo();
+                Console.WriteLine("1. Вкл/Выкл");
+                Console.WriteLine("2. Изменить яркость");
+                Console.WriteLine("3. Изменить температуру");
+                Console.WriteLine("4. Изменить режим");
                 Console.WriteLine("0. Выход");
-                int a = int.Parse(Console.ReadLine());
+                int a = Convert.ToInt32(Console.ReadLine());
                 switch (a)
                 {
                     case 1:
-                        foreach (Product product in products)
-                        {
-                            product.PrintInfo();
-                        }
+                        lampa.onoff();
                         break;
                     case 2:
-                        Console.WriteLine("добавить товар:");
-                        Console.Write("ID: ");
-                        int id = int.Parse(Console.ReadLine());
-                        Console.Write("Название: ");
-                        string name = Console.ReadLine();
-                        Console.Write("Цена: ");
-                        double price = double.Parse(Console.ReadLine());
-                        Console.Write("Количество: ");
-                        int quantity = int.Parse(Console.ReadLine());
-                        products.Add(new Product(id, name, price, quantity));
-                        break;
+                        lampa.yarkost();
+                            break;
                     case 3:
-                        Console.WriteLine("Удаление товара:");
-                        Console.WriteLine("1. по ID");
-                        Console.WriteLine("2. по названию");
-                        int b = int.Parse(Console.ReadLine());
-                        switch (b)
-                        {
-                            case 1:
-                                Console.Write("Введите ID товара для удаления: ");
-                                int deleteId = int.Parse(Console.ReadLine());
-                                products.RemoveAll(p => p.ProductID == deleteId);
-                                break;
-                            case 2:
-                                Console.Write("Введите название товара для удаления: ");
-                                string deleteName = Console.ReadLine();
-                                products.RemoveAll(p => p.Name.Equals(deleteName, StringComparison.OrdinalIgnoreCase));
-                                break;
-                            default:
-                                Console.WriteLine("Неверный выбор. Попробуйте снова.");
-                                break;
-                        }
-                        
+                        lampa.tempa();
+                        break;
+                    case 4:
+                        lampa.regimi();
                         break;
                     case 0:
-                        Console.WriteLine("Выход из программы.");
                         return;
                     default:
-                        Console.WriteLine("Неверный выбор. Попробуйте снова.");
-                        break;
-
+                        return;
                 }
+
+                
+
+
             }
         }
     }
+    
 }
