@@ -9,96 +9,67 @@ using static System.Net.Mime.MediaTypeNames;
 
 namespace ConsoleApp1
 {
-    class Order
-    {
-        private static int nextID = 0;
-        public int ID;
-        public string Name { get; set; }
-        private double price;
+    class Transport {
+        public int mosch;
 
-        public double Price
+        public int kolkol;
+        public int maxsp;
+
+        public Transport(int mosch, int kolkol, int maxsp)
         {
-            get
-            {
-                return price;
-            }
-            set
-            {
-                if (value > 0)
-                {
-                    price = value;
-                }
-                else
-                {
-                    Console.WriteLine("Цена должна быть больше 0");
-                }
-            }
+            this.kolkol = kolkol;
+            this.mosch = mosch;
+            this.maxsp = maxsp;
         }
-        private double discount;
-
-        public double Discount
+    
+        public virtual void Print()
         {
-            get
-            {
-                return discount;
-            }
-            set
-            {
-                if (value >= 0 && value <= 50)
-                {
-                    discount = value;
-                }
-                else
-                {
-                    Console.WriteLine("Скидка должна быть от 0 до 50");
-                }
-            }
+            Console.WriteLine($"Мощность двигателя {mosch} количество колес {kolkol} макс скорость {maxsp}");
         }
-        private int kolvo;
-        public int Kolvo
-        {
-            get
-            {
-                return kolvo;
-            }
-            set
-            {
-                if (value > 0)
-                {
-                    kolvo = value;
-                }
-                else
-                {
-                    Console.WriteLine("Количество должно быть больше 0");
-                }
-            }
-        }
-        public double TotalPrice    
-        {
-            get
-            {
-                return Price * Kolvo * (1 - Discount / 100);
-            }
-        }
-
-        public Order(string Name, double Price, double Discount, int Kolvo)
-        {
-            ID = ++nextID;
-            this.Name = Name;
-            this.Price = Price;
-            this.Discount = Discount;
-            this.Kolvo = Kolvo;
-        }
-
-
-        public void PrintInfo()
-        {
-            Console.WriteLine($"ID: {ID} Name: {Name} Price: {Price} Discount: {Discount} Kolvo: {Kolvo} TotalPrice: {TotalPrice}");
-        }
-
-
 
     }
+    class Mashina : Transport{
+        public string brend;
+        public Mashina(int mosch, int kolkol, int maxsp, string brend) : base(mosch, kolkol, maxsp)
+        {
+            this.brend = brend;
+        }
+
+        public override void Print()
+        {
+            base.Print();
+            Console.WriteLine($"Бренд {brend} ");
+        }
+
+    }
+    class Skuter : Transport {
+        public string tipdv;
+        public Skuter(int mosch, int kolkol, int maxsp, string tipdv) : base(mosch, kolkol, maxsp)
+        {
+            this.tipdv = tipdv;
+        }
+
+        public override void Print()
+        {
+            base.Print();
+            Console.WriteLine($"Тип двигателя {tipdv} ");
+        }
+    }
+    class Elektrosamokat : Transport {
+        public int oba;
+        public Elektrosamokat(int mosch, int kolkol, int maxsp, int oba) : base(mosch, kolkol, maxsp)
+        {
+            this.oba = oba;
+        }
+
+        public override void Print()
+        {
+            base.Print();
+            Console.WriteLine($"Обьем аккамулятора  {oba} ");
+        }
+    }
+
+ 
 
 
     internal class Program
@@ -108,46 +79,15 @@ namespace ConsoleApp1
 
         static void Main(string[] args)
         {
-            List<Order> orders = new List<Order>();
-            orders.Add(new Order("Товар 1", 100, 10, 2));
-            orders.Add(new Order("Товар 2", 200, 20, 3));
-            orders.Add(new Order("Товар 3", 300, 30, 4));
-            Console.WriteLine("Выберите действие: ");
-            Console.WriteLine("0 - Вывод");
-            Console.WriteLine("1 - Добавить заказ");
-            Console.WriteLine("2 - Удалить заказ");
-            Console.WriteLine("3 - Изменить заказ");
-            Console.WriteLine("4 - Вывести все заказы");
-            Console.WriteLine("5 - Вывести заказы с ценой больше заданной");
-            Console.WriteLine("6 - Вывести заказы с ценой меньше заданной");
-            int a = Convert.ToInt32(Console.ReadLine());
-            switch (a)
+            var transportall = new List<Transport>{
+                new Mashina(1500, 4 , 320, "mesedes"),
+                new Skuter(50,2,60,"2такта"),
+                new Elektrosamokat(250,2,55,50000),
+            };
+
+            foreach (var t in transportall)
             {
-                case 0:
-                    foreach(Order d in orders)
-                    {
-                        d.PrintInfo();
-
-                    }
-                    break;
-                case 1:
-                    Console.WriteLine("Введите название товара: ");
-                    string name = Console.ReadLine();
-                    Console.WriteLine("Введите цену товара: ");
-                    double price = Convert.ToDouble(Console.ReadLine());
-                    Console.WriteLine("Введите скидку на товар: ");
-                    double discount = Convert.ToDouble(Console.ReadLine());
-                    Console.WriteLine("Введите количество товара: ");
-                    int kolvo = Convert.ToInt32(Console.ReadLine());
-                    orders.Add(new Order(name, price, discount, kolvo));
-                    break;
-                    case 2:
-                    Console.WriteLine("Введите ID заказа, который хотите удалить: ");
-                    int idToRemove = Convert.ToInt32(Console.ReadLine());
-                    Order orderToRemove = orders.FirstOrDefault(o => o.ID == idToRemove);
-                    Console.WriteLine("Удалено");
-
-                    break;
+                t.Print();
             }
 
         }
