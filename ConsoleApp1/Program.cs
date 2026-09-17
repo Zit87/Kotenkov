@@ -1,4 +1,4 @@
-﻿using System;
+﻿    using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -9,87 +9,143 @@ using static System.Net.Mime.MediaTypeNames;
 
 namespace ConsoleApp1
 {
-    class Transport {
-        public int mosch;
-
-        public int kolkol;
-        public int maxsp;
-
-        public Transport(int mosch, int kolkol, int maxsp)
-        {
-            this.kolkol = kolkol;
-            this.mosch = mosch;
-            this.maxsp = maxsp;
-        }
-    
-        public virtual void Print()
-        {
-            Console.WriteLine($"Мощность двигателя {mosch} количество колес {kolkol} макс скорость {maxsp}");
-        }
-
-    }
-    class Mashina : Transport{
-        public string brend;
-        public Mashina(int mosch, int kolkol, int maxsp, string brend) : base(mosch, kolkol, maxsp)
-        {
-            this.brend = brend;
-        }
-
-        public override void Print()
-        {
-            base.Print();
-            Console.WriteLine($"Бренд {brend} ");
-        }
-
-    }
-    class Skuter : Transport {
-        public string tipdv;
-        public Skuter(int mosch, int kolkol, int maxsp, string tipdv) : base(mosch, kolkol, maxsp)
-        {
-            this.tipdv = tipdv;
-        }
-
-        public override void Print()
-        {
-            base.Print();
-            Console.WriteLine($"Тип двигателя {tipdv} ");
-        }
-    }
-    class Elektrosamokat : Transport {
-        public int oba;
-        public Elektrosamokat(int mosch, int kolkol, int maxsp, int oba) : base(mosch, kolkol, maxsp)
-        {
-            this.oba = oba;
-        }
-
-        public override void Print()
-        {
-            base.Print();
-            Console.WriteLine($"Обьем аккамулятора  {oba} ");
-        }
-    }
-
- 
-
+   
 
     internal class Program
     {
+        public abstract class SmartDevice
+        {
+            public abstract string Name { get; set; }
+            public abstract bool IsOn { get; set; }
+            public void TurnOn()
+            {
+                IsOn = true;
+                Console.WriteLine($"{Name} он крч ON.");
+            }
+
+            public void TurnOff()
+            {
+                IsOn = false;
+                Console.WriteLine($"{Name} он крч OFF.");
+            }
+            public abstract void GetStatus();
+            
+            
+        }
+
+        public class SmartLamp : SmartDevice
+        {
+            public override string Name { get; set; }
+            public override bool IsOn { get ; set ; }
+            public override void GetStatus()
+            {
+                Console.WriteLine($"{Name}: " +
+         (IsOn ? "Включена" : "Выключена"));
+            }
+
+            
+        }
+
+    interface IBatteryPowered
+        {
+            int BatteryCharge { get; set; }
+            void Charge();
+
+
+        }
+
+        public class RobotVacuum : SmartDevice, IBatteryPowered
+        {
+            public override string Name { get; set; }
+            public override bool IsOn { get; set; }
+            public int BatteryCharge { get; set; }
+            public override void GetStatus()
+            {
+                Console.WriteLine($"{Name}: " +
+        (IsOn ? "Включен" : "Выключен") +
+        $", заряд: {BatteryCharge}%");
+            }
+
+            public void Charge()
+            {
+                BatteryCharge = 100;
+                Console.WriteLine("Пылесос заряжается");
+            }
+
+        }
+
+        public class SmartLock : SmartDevice, IBatteryPowered
+        {
+            public override string Name { get; set; }
+            public override bool IsOn { get; set; }
+            public int BatteryCharge { get; set; }
+            public override void GetStatus()
+            {
+                Console.WriteLine($"{Name}: " +
+        (IsOn ? "Включен" : "Выключен") +
+        $", заряд: {BatteryCharge}%");
+            }
+
+            public void Charge()
+            {
+                BatteryCharge = 100;
+                Console.WriteLine("Замок заряжается");
+            }
+
+        }
+
+
 
 
 
         static void Main(string[] args)
         {
-            var transportall = new List<Transport>{
-                new Mashina(1500, 4 , 320, "mesedes"),
-                new Skuter(50,2,60,"2такта"),
-                new Elektrosamokat(250,2,55,50000),
-            };
+            SmartLamp lamp = new SmartLamp();
 
-            foreach (var t in transportall)
+            RobotVacuum vacuum = new RobotVacuum();
+
+            SmartLock lockDevice = new SmartLock();
+
+
+            
+            lamp.Name = "Лампа";
+            lamp.IsOn = false;
+
+            vacuum.Name = "Пылесос";
+            vacuum.IsOn = false;
+            vacuum.BatteryCharge = 50;
+
+            lockDevice.Name = "Замок";
+            lockDevice.IsOn = false;
+            lockDevice.BatteryCharge = 20;
+
+            List<SmartDevice> smart = new List<SmartDevice>();
+
+            smart.Add(lamp);
+            smart.Add(vacuum);
+            smart.Add(lockDevice);
+
+            List<IBatteryPowered> batteries =
+                new List<IBatteryPowered>();
+
+            batteries.Add(vacuum);
+            batteries.Add(lockDevice);
+
+            
+            foreach (SmartDevice device in smart)
             {
-                t.Print();
+                device.GetStatus();
             }
-
+            lamp.TurnOn();
+            lockDevice.TurnOn();
+            foreach (IBatteryPowered battery in batteries)
+            {
+                battery.Charge();
+            }
+            foreach (SmartDevice device in smart)
+            {
+                device.GetStatus();
+            }
         }
     }
     
