@@ -13,132 +13,107 @@ namespace ConsoleApp1
 
     internal class Program
     {
-        class BankAccount
+        class Metodi
         {
-            public decimal balance;
-
-            public BankAccount(decimal balance)
+            public double Area(double a)
             {
-                this.balance = balance;
+                return a * a;
             }
 
-            
-            public void Deposit(decimal amount)
+            public double Perimeter(double a)
             {
-                if (amount <= 0)
+                return a * 4;
+            }
+
+            public double Area(double a, double b)
+            {
+                return a * b;
+            }
+            public double Perimeter(double a, double b)
+            {
+                return (a + b) * 2;
+            }
+
+            public double Area(double a, double b, double c)
+            {
+                double p = (a + b + c) / 2;
+                return Math.Sqrt(p * (p - a) * (p - c));
+            }
+            public double Perimeter(double a, double b, double c)
+            {
+                return a + b + c;
+            }
+            public double Area(double r, bool d)
+            {
+                if (d)
                 {
-                    throw new ArgumentOutOfRangeException(
-                        nameof(amount),
-                        "Сумма пополнения должна быть больше 0."
-                    );
+                    return Math.PI * r * r;
                 }
-
-                balance += amount;
-
-
-
+                else
+                {
+                    return 0;
+                }
 
             }
-            public void Withdraw(decimal amount)
+
+
+            public double Perimeter(double r, bool d)
             {
-
-                if (amount <= 0)
+                if (d)
                 {
-                    throw new ArgumentOutOfRangeException(
-                        nameof(amount),
-                        "Сумма списания должна быть больше 0."
+                    return Math.PI * r * 2;
+                }
+                else
+                {
+                    return 0;
+                }
+            }
+
+            public double Area(double[] x, double[] y)
+            {
+                double sum = 0;
+
+                for (int i = 0; i < x.Length; i++)
+                {
+                    int next = (i + 1) % x.Length;
+
+                    sum += x[i] * y[next] - y[i] * x[next];
+                }
+
+                return Math.Abs(sum) / 2;
+            }
+
+            public double Perimeter(double[] x, double[] y)
+            {
+                double sum = 0;
+
+                for (int i = 0; i < x.Length; i++)
+                {
+                    int next = (i + 1) % x.Length;
+
+                    sum += Math.Sqrt(
+                        Math.Pow(x[next] - x[i], 2) +
+                        Math.Pow(y[next] - y[i], 2)
                     );
                 }
 
-                if (amount > balance)
-                {
-                    throw new InvalidOperationException(
-                        "Недостаточно средств на счёте."
-                    );
-                }
-
-                balance -= amount;
+                return sum;
             }
 
         }
 
-
             static void Main(string[] args)
             {
-            Console.WriteLine("Введите начальный баланс:");
-            decimal initialBalance;
-
-            while (!decimal.TryParse(Console.ReadLine(), out initialBalance))
-            {
-                Console.WriteLine("Ошибка! Введите число:");
-            }
-
-            BankAccount bank = new BankAccount(initialBalance);
-
-            try
-            {
-                Console.WriteLine("Пополнить - 1");
-                Console.WriteLine("Списать - 2");
-
-                int b;
-
-                if (!int.TryParse(Console.ReadLine(), out b))
-                {
-                    throw new ArgumentException("Некорректный выбор операции.");
-                }
-
-                switch (b)
-                {
-                    case 1:
-                        Console.WriteLine("Введите сумму пополнения:");
-
-                        decimal depositAmount;
-
-                        if (!decimal.TryParse(Console.ReadLine(), out depositAmount))
-                        {
-                            throw new ArgumentException("Некорректная сумма.");
-                        }
-
-                        bank.Deposit(depositAmount);
-                        Console.WriteLine("Счёт успешно пополнен.");
-                        break;
-
-                    case 2:
-                        Console.WriteLine("Введите сумму списания:");
-
-                        decimal withdrawAmount;
-
-                        if (!decimal.TryParse(Console.ReadLine(), out withdrawAmount))
-                        {
-                            throw new ArgumentException("Некорректная сумма.");
-                        }
-
-                        bank.Withdraw(withdrawAmount);
-                        Console.WriteLine("Средства успешно списаны.");
-                        break;
-
-                    default:
-                        throw new ArgumentException("Такой операции нет.");
-                }
-            }
-            catch (ArgumentOutOfRangeException ex)
-            {
-                Console.WriteLine($"Ошибка диапазона: {ex.Message}");
-            }
-            catch (InvalidOperationException ex)
-            {
-                Console.WriteLine($"Ошибка операции: {ex.Message}");
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Неизвестная ошибка: {ex.Message}");
-            }
-            finally
-            {
-                Console.WriteLine($"Актуальный баланс: {bank.balance}");
-            }
             
-        
+            Metodi metodi = new Metodi();
+            Console.WriteLine(metodi.Area(5));
+            Console.WriteLine(metodi.Perimeter(5));
+            Console.WriteLine(metodi.Area(2,4));
+            Console.WriteLine(metodi.Perimeter(2,4));
+            Console.WriteLine(metodi.Area(3,4,5));
+            Console.WriteLine(metodi.Perimeter(3,4,5));
+            Console.WriteLine(metodi.Area(5, true));
+            Console.WriteLine(metodi.Perimeter(5, true));
         }
 
     }
